@@ -1,0 +1,438 @@
+{% load static %}
+{%load i18n%}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css?family=Alex+Brush" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+        <link rel="stylesheet" href="{% static 'app.css' %}" />
+        <title>{% trans 'Auto Summarizer' %}</title>
+  </head>
+  <body>
+    <div class="page">
+    </div>
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand ms-5" href="{% url 'home_page'%}"><i class="fas fa-pen"></i> {% trans 'Auto Summarizer' %}</a>
+        
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <form action="{% url 'set_language' %}" method="post">  {#2#}
+              {% csrf_token %}  {#3#}
+              <select name="language" class="" aria-labelledby="navbarDropdown">  {#4#}
+                  {% get_current_language as LANGUAGE_CODE %}  {#5#}
+                  {% get_available_languages as LANGUAGES %}  {#6#}
+                  {% get_language_info_list for LANGUAGES as languages %}  {#7#}
+                  {% for language in languages %}
+                      <option class="dropdown-item" value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>  {#8#}
+                          {{ language.name_local }} ({{ language.code }})
+                      </option>
+                      <hr class="dropdown-divider" />
+                  {% endfor %}
+              </select>
+              <input type="submit" value="Switch">  {#9#}
+          </form>
+                
+            {% comment %} <li class="nav-item dropdown me-5">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Language
+              </a> {% endcomment %}
+              {% comment %} <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item" href="{{request.path}}">English</a></li>
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li><a class="dropdown-item" href="#">Spanish</a></li>
+                <li>
+                    <hr class="dropdown-divider" />
+                </li>
+                <li><a class="dropdown-item" href="#">German</a></li>
+              </ul> {% endcomment %}
+            {% comment %} </li>   {% endcomment %}
+        </div>
+      </div>
+    </nav>
+    
+    <div class="main p-5 d-flex">
+      
+        <div class="working flex-grow-1 m-5">
+          <div class="loading_stop" id="loading_click">
+          <div class="text-center d-flex ">
+            <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <h4 class="alert m-1" id="loading_text" role="alert">
+              Checking Text ...
+            </h4>
+          </div>
+          </div>
+          
+            <form class="d-flex flex-column" action="{% url 'file_checking'%}" method="POST" enctype="multipart/form-data"> 
+              {% csrf_token %}
+              
+                <div class="head d-flex align-items-center justify-content-between">
+                    <h1 class="ms-4 mt-2">{% trans 'Enter Text Here' %}</h1>
+                    
+                    {% if error %}
+                    
+                    <p  class="me-4 mt-3 py-1 px-3 bg-danger" id="wordCount">{{error}}</p>
+                    {% else %}
+                    <p  class="me-4 mt-3 py-1 px-3" id="wordCount">0/1000 words</p>
+                    {% endif %}
+                </div>
+               <textarea class="p-3" id="text_area" name='text_hay' required placeholder="Enter plain text / essay / paragraphs here . . ." >{{textarea}}</textarea>
+               <label class="py-1 px-3 align-self-end upload"><input class="d-none" type="file" id='file_id' name="file_id"><i class="fas fa-upload"></i>{% trans 'Upload' %}</label>
+               
+                <div class="bottom d-flex my-3 align-items-center">
+                    <span class="flex-grow-1 me-5">
+                        
+                        <label for="customRange1" class="form-label">{% trans 'Length of your summary' %}</label>
+                        <input type="range" class="form-range" id="customRange1" min='25' max='75' value='50'name='max_length'>
+                        <div class="d-flex justify-content-between"><p>25%</p><p>50%</p><p>75%</p></div>
+                    </span>
+                    <button type="submit" class="btn btn-primary" onclick="loading()">{% trans 'Summarize Now' %} <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
+        </div>
+        
+
+        <div class="instructions flex-grow-2 m-5">
+          
+            <h2>{% trans 'How to use Text Summarizer' %}</h2>
+            <ul>
+                <li>{% trans 'Copy and paste your content into the Input Box' %}</li>
+                <li>{% trans 'Or Upload from Device, Google Drive or One Drive' %}</li>
+                <li>{% trans 'Set the length from Range Slider' %}</li>
+                <li>{% trans 'Click "Summarize Now" to summarize the article' %}</li>
+            </ul>
+
+            
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{% trans 'Feedback' %}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="{% url 'feedback' 'b' %}" method="POST">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label" >{% trans 'Email (Optional)' %}:</label>
+            <input type="text" class="form-control" name="email" placeholder="Enter your email address ..." id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">{% trans 'Feedback' %}:</label>
+            <textarea class="form-control" id="message-text" name="message" placeholder="Enter your feedback ..."></textarea>
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">{% trans 'Close' %}</button>
+          <button type="submit" class="btn btn-primary">{% trans 'Submit Feedback' %}</button>
+        </form>
+        
+      </div>
+    </div>
+  </div>
+</div>
+{% if feedback %}
+<div class="alert alert-warning alert-dismissible" role="alert">
+  {% trans "Thank you! Your feedback has been submited." %}
+  <button type="" class="" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endif %}
+            <h2>{% trans 'Feedback' %}</h2>
+            
+            <div class="d-flex b-1">
+              
+              
+            <form action="{% url 'feedback' 'g' %}">
+              
+              <button id="submit_up" type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal1" data-whatever="@mdo"><i class="fas fa-thumbs-up"></i></button>
+            </form>
+
+            <form action="{% url 'feedback' 'b' %}">
+              <button id="submit_down" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"><i class="fas fa-thumbs-down"></i></button>
+            </form>
+            </div>
+        </div>
+    </div>
+    {% if res %}
+    <div class="results p-5 m-5" id ='res'>
+        <h1>{% trans 'Results'%}</h1>
+        
+        <div class="d-flex content">
+            <span class="flex-grow-1 me-5">
+              <ul class="nav nav-tabs justify-content-between pt-3 ">
+                <li class="nav-item px-5"><a class="nav-link" data-toggle="pill" href="#home">{% trans 'General'%}</a></li>
+                <li class="nav-item px-5"><a class="nav-link" data-toggle="pill" href="#menu1">{% trans 'Best Line'%}</a></li>
+                <li class="nav-item px-5"><a class="nav-link" data-toggle="pill" href="#menu2">{% trans 'Bullets'%}</a></li>
+              </ul>
+                {% comment %} <ul class="nav nav-tabs justify-content-between pt-2">
+                    <li class="nav-item px-5">
+                        <a class="nav-link">General</a>
+                    </li>
+                    <li class="nav-item px-5">
+                        <a class="nav-link">Best Line</a>
+                    </li>
+                    <li class="nav-item px-5">
+                        <a class="nav-link">Bullets</a>
+                    </li>
+                </ul>
+                <div class="p-5">
+                    <p>{{res}}</p>
+                </div> {% endcomment %}
+                
+            
+
+    
+            
+            
+            <div class="tab-content">
+              <div id="home" class="tab-pane fade in active p-5">
+                {% comment %} <h3></h3> {% endcomment %}
+                <p id='res_p'>{{res}}</p>
+              </div>
+              <div id="menu1" class="tab-pane fade p-5">
+                {% comment %} <h3>Menu 1</h3> {% endcomment %}
+                <p>{{bestline}}</p>
+              </div>
+              <div id="menu2" class="tab-pane fade p-5">
+                {% comment %} <h3>Menu 2</h3> {% endcomment %}
+                
+                <p>
+                  {% for o in bullet %}
+                  <span> • {{o}}
+                   </span>
+                  <br/>
+                   {% endfor %} 
+                  </p>
+              </div>
+            </div>
+            </span>
+            <div class="options">
+                <button id ="" onclick="myFunction()" onmouseout="outFunc()"><i class="far fa-copy"></i><span class="" id="myTool">
+                    {% trans 'Copy text'%}</span></button>
+                <button onclick="download('result.txt','{{res}}')"><i class="fas fa-arrow-down"></i>{% trans 'Download'%}</button>
+                <form action="{% url 'home_page' %}">
+                <button><i class="fas fa-sync-alt"></i>{% trans 'Start Over'%}</button>
+              </form>
+            </div>
+        </div>
+
+     
+       
+
+    </div>
+    {%endif %}
+    
+    <footer>
+      <h1><i class="fas fa-pen"></i> Auto Summarizer</h1>
+      <p>Copyright © All rights reserved | It is made with by AutoSummarizer.com ™</p>
+      <span>
+        <a href="{% url 'PrivacyPolicy' %}">Privacy Policy</a> |
+        <a href="{% url 'terms' %}">Terms & Conditions</a>
+      </span>
+    </footer>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.entry.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.worker.min.js"></script>
+    <script>
+
+
+
+let inputTextArea = document.getElementById("text_area");
+let wordCount = document.getElementById("wordCount");
+
+
+let file_input = document.getElementById("file_id");
+file_input.addEventListener("change",function(e) {
+  this.form.submit();
+})
+
+inputTextArea.addEventListener("input", function(e) {
+  wordCount.textContent = " words";
+  let txt = inputTextArea.value.trim();
+  wordCount.classList.remove("bg-danger");
+  let lengthh = txt.split(/\s+/).filter((item) => item).length
+  wordCount.textContent = lengthh + " words";
+  
+   
+  
+});
+
+
+
+
+inputTextArea.addEventListener("keypress", function(e) {
+  
+  
+  wordCount.textContent = " words";
+  let txt = inputTextArea.value.trim();
+  wordCount.classList.remove("bg-danger");
+  let lengthh = txt.split(/\s+/).filter((item) => item).length
+  wordCount.textContent = lengthh + " words";
+  
+});
+
+
+inputTextArea.addEventListener("paste", function(e) {
+  
+  wordCount.textContent = " words";
+  let txt = inputTextArea.value.trim();
+  wordCount.classList.remove("bg-danger");
+  let lengthh = txt.split(/\s+/).filter((item) => item).length
+  wordCount.textContent = lengthh + " words";
+  
+});
+
+
+        
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
+// Start file download.
+
+
+function myFunction() {
+  var copyText = document.getElementById("res_p");
+  
+  navigator.clipboard.writeText(copyText.innerText);
+  
+  var copy_element = document.getElementById("myTool");
+  copy_element.innerHTML = "{% trans 'Copied'%}";
+}
+
+
+
+
+
+
+    </script>
+    <script>
+
+
+      
+
+
+      window.onload = function() {scrollFunction("{{error}}")};
+      
+      function scrollFunction(e) {
+        if(e.length <= 0) {
+          let txt = inputTextArea.value.trim();
+          wordCount.textContent = " words";
+          
+          wordCount.classList.remove("bg-danger");
+          let lengthh = txt.split(/\s+/).filter((item) => item).length
+          wordCount.textContent = lengthh + " words";
+        }
+          let a = document.getElementById("res_p")
+            
+            if(a){ 
+              window.scrollTo(0,document.body.scrollHeight);
+            }
+          }
+
+          function loading(){
+            let text = inputTextArea.value.length;
+            let load = document.getElementById("loading_click")
+            let load_text=document.getElementById("loading_text")
+            if(text>0){
+            console.log("Loading ...")
+            load.classList.remove("loading_stop")
+            load_text.innerHTML = "Checking Text ..."
+            
+            const myTimeout = setTimeout(myGreeting, 1000);
+
+              function myGreeting() {
+                console.log("Generating Summary ...")
+                load_text.innerHTML = "Generating Summary ..."
+          }
+        
+          const myTimeout2 = setTimeout(myGreeting2, 500);
+
+        function myGreeting2() {
+        console.log("Generating Summary ...")
+        load_text.innerHTML = "Fetching Data ..."
+          }
+          
+          const myTimeout3 = setTimeout(myGreeting3, 500);
+
+        function myGreeting3() {
+        console.log("Generating Summary ...")
+        load_text.innerHTML = "Fetching Data ..."
+          }
+
+          var t=setInterval(runFunction,700);
+          let a = 0
+          function runFunction() {
+            
+            load_text.innerHTML = a + " % ...."
+            a=a+1
+              }
+
+        
+          
+          }}
+      </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.6.347/pdf.worker.entry.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/1.10.100/pdf.worker.min.js" ></script>
+  </body>
+</html>

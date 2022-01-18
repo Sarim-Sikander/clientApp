@@ -1,0 +1,276 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.navbar-brand {
+  color: #0c2e60 !important;
+  font-weight: 700;
+}
+
+.head {
+  border: 1px solid #cccccc;
+  border-bottom: none;
+  background-color: #f1f5f8;
+  border-radius: 5px 5px 0 0;
+}
+
+.head h1 {
+  font-size: 18px;
+}
+
+.head p {
+  border: 1px solid #92cbf1;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+textarea {
+  resize: none;
+  border: 1px solid #cccccc;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  height: 265px;
+  outline: none;
+}
+
+label.upload {
+  background-color: #0c2e60;
+  color: #fff;
+  border-radius: 5px;
+  margin-top: -40px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.bottom {
+  margin-top: 40px !important;
+}
+
+.instructions h2 {
+  color: #0c2e60;
+  font-size: 1.9em;
+  font-weight: 700;
+}
+
+.instructions ul {
+  padding: 15px;
+}
+
+.instructions li {
+  font-size: 15px;
+  margin: 10px 0;
+}
+
+.instructions button {
+  color: #fff;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 50px;
+  opacity: 0.5;
+  transition: all 0.5s ease-in;
+}
+
+.instructions button:nth-of-type(1) {
+  background-color: #00b627;
+}
+
+#submit_down {
+  background-color: #f82121;
+  margin-left: 10px;
+}
+
+.instructions button:hover {
+  opacity: 1;
+}
+
+.results span {
+  box-shadow: 0px 1px 8px 1px #d3d3d375;
+}
+
+.loading_stop {
+  display: none;
+} 
+
+.loading_start {
+  display: block;
+} 
+.nav-tabs {
+  background-color: #0c2e60;
+  border-radius: 5px 5px 0 0;
+}
+
+.nav-tabs .nav-item .nav-link {
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-tabs .nav-item .nav-link:hover {
+  color: #0c2e60;
+  border: none;
+  background-color: #fff;
+}
+
+.results span div {
+  border: 1px solid #cccccc;
+  border-top: none;
+  min-height: 300px;
+}
+
+.results .options {
+  display: flex;
+  flex-direction: column;
+}
+
+.results .options button {
+  background-color: transparent;
+  border: none;
+  margin-top: 10px;
+}
+
+.results .options i {
+  border: 1px solid #cccccc;
+  color: #cccccc;
+  font-size: 1.3rem;
+  padding: 10px;
+  border-radius: 5px;
+  margin-right: 10px;
+  box-shadow: 0px 1px 8px 1px #d3d3d375;
+  transition: all 0.5s ease-in;
+}
+
+.results .options i:hover {
+  color: #fff;
+  background-color: #cccccc;
+}
+
+@media only screen and (max-width: 1000px) {
+  .main,
+  .results .content {
+    flex-direction: column;
+  }
+
+  .results .options {
+    align-items: flex-start;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .main,
+  .results {
+    padding: 0 !important;
+  }
+
+  .bottom {
+    display: block !important;
+  }
+
+  .results span {
+    margin: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .working,
+  .results {
+    margin: 20px !important;
+  }
+}
+
+
+
+footer {
+  position: relative;
+  bottom: 0;
+  background-color: #0c2e60;
+  width: 100%;
+  left: 0;
+  padding: 20px 50px;
+}
+
+footer h1 {
+  color: #fff;
+  font-size: 18px;
+}
+footer p {
+  color: #fff;
+  text-align: center;
+}
+footer span {
+  box-shadow: none !important;
+  color: #fff;
+  font-size: 0.8rem;
+  float: right;
+  right: 100px;
+}
+
+footer a {
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+  color: #fff;
+  text-decoration: none;
+}
+
+.terms {
+  padding: 0 50px;
+}
+
+.terms h1 {
+  color: #0c2e60;
+  font-family: Poppins, sans-serif;
+}
+
+.terms p {
+  color: #888;
+}
+
+footer a:hover {
+  color: #000 !important;
+}
+
+@media only screen and (max-width: 1000px) {
+  .main,
+  .results .content {
+    flex-direction: column;
+  }
+
+  .results .options {
+    align-items: flex-start;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  .main,
+  .results {
+    padding: 0 !important;
+  }
+
+  .bottom {
+    display: block !important;
+  }
+
+  .results span {
+    margin: 0 !important;
+  }
+
+  body {
+    padding-bottom: 300px;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .working,
+  .results {
+    margin: 20px !important;
+  }
+
+  footer p {
+    font-size: 12px;
+  }
+
+  footer h1 {
+    display: none;
+  }
+}

@@ -1,0 +1,1 @@
+web: gunicorn summerizer.wsgi --log-file -

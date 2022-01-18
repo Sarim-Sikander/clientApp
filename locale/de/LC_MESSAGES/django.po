@@ -1,0 +1,137 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-01-16 01:26+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\summerizer\settings.py:127
+msgid "Spanish"
+msgstr ""
+
+#: .\summerizer\settings.py:128
+msgid "English"
+msgstr ""
+
+#: .\summerizer\settings.py:129
+msgid "German"
+msgstr ""
+
+#: .\summerizer_app\templates\index.html:22
+#: .\summerizer_app\templates\index.html:30
+msgid "Auto Summarizer"
+msgstr "Automatische Zusammenfassung"
+
+#: .\summerizer_app\templates\index.html:109
+msgid "Enter Text Here"
+msgstr "Hier Text eingeben"
+
+#: .\summerizer_app\templates\index.html:119
+msgid "Upload"
+msgstr "Hochladen"
+
+#: .\summerizer_app\templates\index.html:124
+msgid "Length of your summary"
+msgstr "Länge Ihrer Zusammenfassung"
+
+#: .\summerizer_app\templates\index.html:128
+msgid "Summarize Now"
+msgstr "Jetzt zusammenfassen"
+
+#: .\summerizer_app\templates\index.html:136
+msgid "How to use Text Summarizer"
+msgstr "So verwenden Sie die Textzusammenfassung"
+
+#: .\summerizer_app\templates\index.html:138
+msgid "Copy and paste your content into the Input Box"
+msgstr "Kopieren Sie Ihren Inhalt und fügen Sie ihn in das Eingabefeld ein"
+
+#: .\summerizer_app\templates\index.html:139
+msgid "Or Upload from Device, Google Drive or One Drive"
+msgstr "Oder laden Sie vom Gerät, Google Drive oder One Drive hoch"
+
+#: .\summerizer_app\templates\index.html:140
+msgid "Set the length from Range Slider"
+msgstr "Stellen Sie die Länge über den Bereichsschieberegler ein"
+
+#: .\summerizer_app\templates\index.html:141
+msgid "Click \"Summarize Now\" to summarize the article"
+msgstr ""
+"Klicken Sie auf \"Jetzt zusammenfassen\", um den Artikel zusammenzufassen"
+
+#: .\summerizer_app\templates\index.html:149
+#: .\summerizer_app\templates\index.html:162
+#: .\summerizer_app\templates\index.html:184
+msgid "Feedback"
+msgstr "Feedback"
+
+#: .\summerizer_app\templates\index.html:158
+msgid "Email (Optional)"
+msgstr "E-Mail optional"
+
+#: .\summerizer_app\templates\index.html:168
+msgid "Close"
+msgstr "Nah dran"
+
+#: .\summerizer_app\templates\index.html:169
+#, fuzzy
+#| msgid "Feedback"
+msgid "Submit Feedback"
+msgstr "Feedback"
+
+#: .\summerizer_app\templates\index.html:178
+msgid "Thank you! Your feedback has been submited."
+msgstr "Danke schön! Ihr Feedback wurde übermittelt."
+
+#: .\summerizer_app\templates\index.html:185
+msgid "Positive:"
+msgstr "Positiv"
+
+#: .\summerizer_app\templates\index.html:186
+msgid "Negative:"
+msgstr "Negativ"
+
+#: .\summerizer_app\templates\index.html:203
+msgid "Results"
+msgstr "Ergebnisse"
+
+#: .\summerizer_app\templates\index.html:208
+msgid "General"
+msgstr "Allgemein"
+
+#: .\summerizer_app\templates\index.html:209
+msgid "Best Line"
+msgstr "Beste Zeile"
+
+#: .\summerizer_app\templates\index.html:210
+msgid "Bullets"
+msgstr "Kugeln"
+
+#: .\summerizer_app\templates\index.html:260
+msgid "Copy text"
+msgstr "Text kopieren"
+
+#: .\summerizer_app\templates\index.html:261
+msgid "Download"
+msgstr "Herunterladen"
+
+#: .\summerizer_app\templates\index.html:263
+msgid "Start Over"
+msgstr "Von vorn anfangen"
+
+#: .\summerizer_app\templates\index.html:389
+msgid "Copied"
+msgstr "Kopiert"
